@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+        <div class="text-capitalize text-center">
+          <h1>New job opportunity</h1>
+        </div><br>
+        <article class="media content-section">
+            <div class="media-body">
+                <p class="article-content">
+                    <h2>Backend python engineer (MANA software development)</h2>
+                    <p>Code: BE03-345</p>
+                    <h3>Requirements:</h3>
+                    <ul>
+                        <li>Python: 16 years of experience.</li>
+                        <li>Flask: half a century of practise.</li>
+                        <li>Computer Science degree in the NASA with honors.</li>
+                        <li>Able to work 25 hours a day.</li>
+                        <li>No childs, hobbies or distractions.</li>
+                    </ul>
+                    <h3>Salary range: </h3>
+                    <p>From 1€ to 1.5€ per hour</p>
+                    <h3>Job description:</h3>
+                    <p>
+                        We're a new enterprise with no idea what we're doing in the software development world. 
+                        We need someone to help us to center in our careers because we don't know what an integer is.
+                        So, if you wan't to experience our devil's job, don't doubt in complete the following form. 
+                    </p>
+                </p>
+                <br><br>
+                {% block form %}{% endblock %}
+            </div>
+                
+        </article>
+        
+{% endblock content %}
