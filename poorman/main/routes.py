@@ -3,6 +3,7 @@ from flask import render_template, request, Blueprint, flash, redirect, url_for
 from poorman.candidates.forms import ApplicationForm
 from poorman.models import Candidate
 from poorman import db
+from datetime import datetime
 
 main = Blueprint('main', __name__)
 
@@ -12,8 +13,8 @@ def create_dictionary(candidate):
         'first_surname': candidate.first_surname,
         'second_surname': candidate.second_surname,
         'email': candidate.email,
-        'job_code': candidate.job_code,
-        'date': candidate.date
+        'job_code': 'BE03-345',
+        'date': datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     }
     return dictionary
 
@@ -29,8 +30,13 @@ def send_candidate(candidate):
 
 
 @main.route("/")
-@main.route("/home", methods=['GET', 'POST'])
+@main.route("/home", methods=['GET'])
 def home():
+    form = ApplicationForm()
+    return render_template("form.html", form=form)
+
+@main.route("/apply", methods=['POST'])
+def apply():
     form = ApplicationForm()
     if form.validate_on_submit():
         candidate = Candidate(name=form.name.data, first_surname=form.first_surname.data, 
