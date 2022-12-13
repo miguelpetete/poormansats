@@ -5,7 +5,7 @@ from poorman.models import Candidate
 
 candidates = Blueprint('candidates', __name__)
 
-@candidates.route("/apply", methods=['GET', 'POST'])
+@candidates.route("/appliance", methods=['GET', 'POST'])
 def apply():
     form = ApplicationForm()
     if form.validate_on_submit():

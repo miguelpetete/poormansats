@@ -1,7 +1,39 @@
-import click, pika
+import click, pika, json, os, requests
+
+key = os.getenv('AIRTABLE_KEY')
+baseID = os.getenv('AIRTABLE_BASE_ID')
+tableID = os.getenv('AIRTABLE_TABLE_ID')
+
+basic_url = 'https://api.airtable.com/v0/'
+
+def upload_airtable(obj):
+    url = basic_url + str(baseID) + '/' + str(tableID)
+    headers = {
+        "Authorization": f"Bearer {str(key)}", 
+        "Content-type": "application/json"
+    }
+    response = requests.post(url, headers=headers, json=obj)
+    print(response.json())
+    print('Updated!!')
 
 def on_message_received(ch,method,properties,body):
-    print(f"Received message: {body}")
+    message = json.loads(body)
+    fullname = message['name'] + ' ' + message['first_surname'] + ' ' + message['second_surname']
+    airtable_object = {
+        "records": [
+            {
+                "fields": {
+                    "Status": "Inbox",
+                    "Email": f"{message['email']}",
+                    "Name": f"{fullname}",
+                }
+            }
+        ]
+    }
+    print('Updating candidate to AirTable')
+    print(airtable_object)
+    upload_airtable(airtable_object)
+    print('Done. Please, press Control+C')
 
 def consuming():
     connection_parameters = pika.ConnectionParameters('localhost')
