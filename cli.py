@@ -15,7 +15,6 @@ def upload_airtable(obj):
         "Content-type": "application/json"
     }
     response = requests.post(url, headers=headers, json=obj)
-    print(response)
     print('Updated!!')
 
 def on_message_received(ch,method,properties,body):
@@ -33,7 +32,6 @@ def on_message_received(ch,method,properties,body):
         ]
     }
     print('Updating candidate to AirTable')
-    print(airtable_object)
     upload_airtable(airtable_object)
     print('Done. Please, press Control+C')
 
