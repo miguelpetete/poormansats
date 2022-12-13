@@ -35,7 +35,7 @@ def home():
     form = ApplicationForm()
     return render_template("form.html", form=form)
 
-@main.route("/apply", methods=['POST'])
+@main.route("/apply", methods=['POST','UPDATE'])
 def apply():
     form = ApplicationForm()
     if form.validate_on_submit():

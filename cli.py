@@ -1,8 +1,10 @@
 import click, pika, json, os, requests
+from dotenv import dotenv_values
 
-key = os.getenv('AIRTABLE_KEY')
-baseID = os.getenv('AIRTABLE_BASE_ID')
-tableID = os.getenv('AIRTABLE_TABLE_ID')
+envs = dotenv_values(".env")
+key = envs['AIRTABLE_KEY']
+baseID = envs['AIRTABLE_BASE_ID']
+tableID = envs['AIRTABLE_TABLE_ID']
 
 basic_url = 'https://api.airtable.com/v0/'
 
@@ -13,7 +15,7 @@ def upload_airtable(obj):
         "Content-type": "application/json"
     }
     response = requests.post(url, headers=headers, json=obj)
-    print(response.json())
+    print(response)
     print('Updated!!')
 
 def on_message_received(ch,method,properties,body):
