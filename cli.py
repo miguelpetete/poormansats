@@ -27,6 +27,7 @@ def on_message_received(ch,method,properties,body):
                     "Status": "Inbox",
                     "Email": f"{message['email']}",
                     "Name": f"{fullname}",
+                    "Notified": False
                 }
             }
         ]
