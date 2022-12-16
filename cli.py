@@ -45,11 +45,54 @@ def consuming():
     print("Starting consuming")
     channel.start_consuming()
 
+def update_notify(record):
+    url = basic_url + str(baseID) + '/' + str(tableID)
+    headers = {
+        "Authorization": f"Bearer {str(key)}", 
+        "Content-type": "application/json"
+    }
+    airtable_object = {
+        "records": [
+            {
+                "fields": {
+                    "Status": record["fields"]["Status"],
+                    "Email": record["fields"]["Email"],
+                    "Name": record["fields"]["Name"],
+                    "Notified": True
+                }
+            }
+        ]
+    }
+    response = requests.patch(url, headers=headers, json=airtable_object)
+
+
+def send_message():
+    url = basic_url + str(baseID) + '/' + str(tableID)
+    headers = {
+        "Authorization": f"Bearer {str(key)}"
+    }
+    response = requests.get(url, headers=headers)
+    res = response.json()
+    for record in res["records"]:
+        status = record["fields"]["Status"]
+        if status == "Rejected":
+            name = record["fields"]["Name"]
+            print(f"Candidate: {name} is REJECTED")
+            update_notify(record)
+        elif status == "Hired":
+            name = record["fields"]["Name"]
+            print(f"Candidate: {name} is HIRED")
+            update_notify(record)
+
+
 @click.command()
-@click.option('--consume', default=0, help='Number of greetings.')
-def cli(consume):
+@click.option('--consume', default=0, help='If it is 1, it consume from rabbit to publish in Airtable.')
+@click.option('--candidates', default=0, help='If candidates are Rejected or Hired, they send an email to them with the result. If it is 1, it sends the emails.')
+def cli(consume,candidates):
     if consume == 1:
         consuming()
+    elif candidates == 1:
+        send_message()
 
 if __name__ == '__main__':
     cli()
