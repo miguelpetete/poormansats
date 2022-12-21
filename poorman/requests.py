@@ -1,4 +1,12 @@
 import requests
+from dotenv import dotenv_values
+
+envs = dotenv_values(".env")
+key = envs["AIRTABLE_KEY"]
+baseID = envs["AIRTABLE_BASE_ID"]
+tableID = envs["AIRTABLE_TABLE_ID"]
+
+BASIC_URL = "https://api.airtable.com/v0/"
 
 
 class APIRepository:
@@ -7,7 +15,7 @@ class APIRepository:
         self.auth = auth
 
     def get(self, endpoint, params=None):
-        url = f''
+        url = BASIC_URL + str(baseID) + "/" + str(tableID)
         response = requests.get(url, params=params, auth=self.auth)
         if response.status_code == 200:
             return response.json()
@@ -16,7 +24,7 @@ class APIRepository:
                 f'GET request to {url} returned status code {response.status_code}')
 
     def post(self, endpoint, data, headers=None):
-        url = f''
+        url = BASIC_URL + str(baseID) + "/" + str(tableID)
         response = requests.post(
             url, json=data, headers=headers, auth=self.auth)
         if response.status_code == 200:
@@ -26,7 +34,7 @@ class APIRepository:
                 f'POST request to {url} returned status code {response.status_code}')
 
     def put(self, endpoint, data, headers=None):
-        url = f''
+        url = BASIC_URL + str(baseID) + "/" + str(tableID)
         response = requests.put(
             url, json=data, headers=headers, auth=self.auth)
         if response.status_code == 200:
@@ -36,7 +44,7 @@ class APIRepository:
                 f'PUT request to {url} returned status code {response.status_code}')
 
     def delete(self, endpoint):
-        url = f''
+        url = BASIC_URL + str(baseID) + "/" + str(tableID)
         response = requests.delete(url, auth=self.auth)
         if response.status_code == 200:
             return f''
