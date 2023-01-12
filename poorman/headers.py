@@ -14,5 +14,4 @@ class RequestHeaders:
     def get_header(self, key):
         if key in self.headers:
             return self.headers[key]
-        else:
-            raise KeyError("Header not found")
+        raise KeyError("Header not found")

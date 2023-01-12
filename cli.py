@@ -24,7 +24,9 @@ def upload_airtable(obj):
         print("Updated!!")
 
 
-def on_message_received(ch, method, properties, body):  # pylint: disable = unused-argument
+def on_message_received(
+    ch, method, properties, body
+):  # pylint: disable = unused-argument
     message = json.loads(body)
     fullname = (
         message["name"]
